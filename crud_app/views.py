@@ -17,7 +17,7 @@ from reportlab.pdfbase import pdfmetrics
 from io import BytesIO
 from django.utils import timezone
 
-#this is the login page
+
 def index(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -31,8 +31,6 @@ def index(request):
     return render(request, 'crud_app/index.html', {'form': form})
 
 
-
-#logout function from Navbar
 def logout_request(request):
     logout(request)   
     return render(request, 'crud_app/logout.html')
@@ -96,12 +94,8 @@ def all_dc_skus(request):
     benchstock_parts_in_dc = Benchstock_part_in_DC.objects.all().order_by('benchstock_part__vendor__vendor_name', 'dc__dc_number')
     dc_choices = DC.objects.values_list('dc_name', flat=True).distinct()
     vendor_choices = Vendors.objects.values_list('vendor_id', flat=True).distinct()
-    # Add other choices as needed
-
-    # Apply filters based on GET parameters
     dc_filter = request.GET.get('dc_filter')
     vendor_filter = request.GET.get('vendor_filter')
-    # Other filters...
 
     if dc_filter:
         benchstock_parts_in_dc = benchstock_parts_in_dc.filter(dc__dc_name=dc_filter)
@@ -124,7 +118,7 @@ def new_vendor(request):
             user=request.user,
             action="Added a new item",
             status="success",
-            details=f"Created Vendor: {vendor_id}"  # Replace with actual item details
+            details=f"Created Vendor: {vendor_id}"
         )
             return render(request, 'crud_app/new_vendor.html', {
         'form': form,
@@ -148,7 +142,6 @@ def edit_vendors(request, pk):
     
     return render(request, 'crud_app/edit_vendors.html', {'form': form})
 
-#Where users can add modify settings and options for the DCs, furniture categories, part catergories etc...
 def settings(request):
     dcs = DC.objects.all().order_by('dc_number')
     colors = Color.objects.all().order_by('color_options')
@@ -249,12 +242,8 @@ def generate_label(request, pk):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="part_label.pdf"'
 
-    # Create the PDF object, using the response object as its "file."
     p = canvas.Canvas(response, pagesize=letter)
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # Specify the exact coordinates for your label.
-    p.rect(2, 660, 300, 130, stroke=1, fill=0)  # Change these values as needed
+    p.rect(2, 660, 300, 130, stroke=1, fill=0)
     p.drawString(22, 770, f"Vendor : {benchstock_part.benchstock_part.vendor.vendor_id} - {benchstock_part.benchstock_part.vendor.vendor_name} ")
     p.drawString(22, 755, f"BS.SKU: {benchstock_part.benchstock_part.benchstock_sku} - DC# {benchstock_part.dc.dc_number}")
     p.drawString(22, 740, f"Location:  Rack #{benchstock_part.rack_number} - Shelf #{benchstock_part.shelf_number} - Shelf side: {benchstock_part.shelf_side}")
@@ -262,13 +251,10 @@ def generate_label(request, pk):
 
     p.setFont("LibreBarcode39", 50)
     p.drawString(22, 680, f"*{benchstock_part.benchstock_part.benchstock_sku}*")
-    # Add more details as needed
 
-    # Close the PDF object cleanly.
     p.showPage()
     p.save()
 
-    # Return the response
     return response
 
 def new_inventory_transfer(request):
@@ -277,7 +263,6 @@ def new_inventory_transfer(request):
         if form.is_valid():
             inventory_transfer = form.save()
             
-            # Subtract quantity from benchstock_part_in_dc
             benchstock_part_in_dc = inventory_transfer.benchstock_part_in_dc
             benchstock_part_in_dc.quantity -= inventory_transfer.quantity
             benchstock_part_in_dc.save()
@@ -299,7 +284,6 @@ def new_inventory_transfer(request):
             p.setFont("LibreBarcode39", 50)
             p.drawString(100, 630, f"*{inventory_transfer.transfer_number}*")
 
-            # ... more content
             p.showPage()
             p.save()
 
@@ -343,13 +327,11 @@ def process_transfer(request):
             receiving_dc_record.quantity += transfer.quantity
             receiving_dc_record.save()
 
-            # Update transfer record
             transfer.status = 'Received'
             transfer.received_date = timezone.now()
             transfer.save()
 
             if new_record_created:
-                # Redirect to the edit page of the newly created object
                 edit_url = reverse('crud_app:edit_dc_parts', kwargs={'pk': receiving_dc_record.pk})
                 return redirect(edit_url)
 
@@ -384,7 +366,7 @@ def process_quick_scan(request):
         except Benchstock_part_in_DC.DoesNotExist:
             messages.error(request, 'SKU not found in selected DC.')
 
-        return redirect('crud_app:process_quick_scan')  # Replace with your template name or URL name
+        return redirect('crud_app:process_quick_scan')
 
     else:
         dcs = DC.objects.all()
