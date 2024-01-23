@@ -1,0 +1,38 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/editvendors.css' %}">
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="edit-vendors-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="edit-vendors-header">Edit Vendor: {{ form.instance.vendor_name }}</h2>
+        <p class="edit-vendors-selected-vendor">Vendor ID: {{ form.instance.vendor_id }} - Vendor Code: {{ form.instance.vendor_code }}</p>
+        <div class="form-row">
+        <div class="form-column">
+        <label class="form-label">Sends Parts:</label>
+        {{ form.sends_parts }} <br>
+        <label class="form-label">Available Parts:</label>
+        {{ form.available_parts }} <br>
+        </div>
+        <div class="form-column">
+        <label class="form-label">Part Shipping:</label>
+        {{ form.part_shipping }} <br>
+        <label class="form-label">Unavailable Parts:</label>
+        {{ form.unavailable_parts }}
+        </div>
+        
+    </div>
+    <label class="form-label">Other Part Info:</label>
+        {{ form.other_part_info }} <br><br>
+        <button class="edit-vendors-form-button">Update Vendor</button>
+
+    </form>
+
+</div>
+{% else %}
+
+{% endif %}
+{% endblock %}

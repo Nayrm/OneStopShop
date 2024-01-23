@@ -1,0 +1,101 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/settings.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="setting-forms-container">
+    <div id="dc-settings" class="setting-forms">
+        <h3>Distribution Centers</h3>
+        <div class="scrollable-table-wrapper">
+        <table class="setting-forms-table">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>DC Number:</th>
+                    <th>Rack Amount:</th>
+                    <th>Shelf Per Rack:</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dc in dcs %}
+                <tr>
+                    <td>{{dc.dc_name}}</td>
+                    <td>{{dc.dc_number}}</td>
+                    <td>{{dc.rack_amount}}</td>
+                    <td>{{dc.shelf_per_rack}}</td>
+                </tr>
+                {% endfor %}
+        </table>
+        </div>
+        <a class="setting-forms-button" href="{% url 'crud_app:new_dc' %}">Add DC</a>
+
+    </div>
+    <div id="color-settings" class="setting-forms">
+        <h3>Color Options</h3>
+        <div class="scrollable-table-wrapper">
+        <table class="setting-forms-table">
+            <thead>
+                <tr>
+                    <th>Color Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for color in colors %}
+                <tr>
+                    <td>{{color.color_options}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <a class="setting-forms-button" href="{% url 'crud_app:new_color' %}">Add Color</a>
+    </div>
+    <div id="furniture-settings" class="setting-forms">
+        <h3>Furniture Categories</h3>
+        <div class="scrollable-table-wrapper">
+        <table class="setting-forms-table">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for furniture in furniture_categories %}
+                <tr>
+                    <td>{{furniture.furniture_categories}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <a class="setting-forms-button" href="{% url 'crud_app:new_furniture_type' %}">Add Furniture Category</a>
+    </div>
+    <div id="part-settings" class="setting-forms">
+        <h3>Part Types</h3>
+        <div class="scrollable-table-wrapper">
+        <table class="setting-forms-table">
+            <thead>
+                <tr>
+                    <th>Part Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part in part_categories %}
+                <tr>
+                    <td>{{part.part_categories}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <a class="setting-forms-button" href="{% url 'crud_app:new_part_type' %}">Add Part Type</a>
+    </div>
+</div>
+{%else%}
+
+{%endif%}
+
+
+{% endblock %}

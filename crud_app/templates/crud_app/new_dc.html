@@ -1,0 +1,35 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newdc.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-dc-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-dc-header">Add New DC:</h2><br>
+        
+            
+        <label class="form-label">DC Name:</label>
+        {{ form.dc_name }} <br>
+        <label class="form-label">DC Number:</label>
+        {{ form.dc_number }} <br>
+        <label class="form-label">Rack Amount:</label>
+        {{ form.rack_amount }} <br>
+        <label class="form-label">Shelf per Rack:</label>
+        {{ form.shelf_per_rack }} <br>
+        
+        
+            
+        <button class="new-dc-form-button">Save DC</button>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2rem;">
+    <a href="{% url 'crud_app:settings' %}" style="font-weight: bold; color: #87CEEB;;">Return to Settings</a>
+    </div>
+{%else%}
+<h1>Not logged in</h1>
+<a href="{% url 'crud_app:login' %}">Login</a>
+{%endif%}
+{% endblock %}

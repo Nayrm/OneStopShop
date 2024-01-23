@@ -1,0 +1,135 @@
+body{
+    background-color: #79818c;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.quick-scan-form{
+    height: fit-content;
+    width: 60%;
+    min-width: 300px;
+    max-width: fit-content;
+    margin: 1rem auto;
+    margin-top: 2rem;
+    background-color: black;
+    padding: 30px;
+    border-radius: 45px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 9px 7px #383b3f;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 19px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    background-color: #e7e7e7;
+    border-color: #f31818;
+    box-shadow: 1px 1px 5px 2px #f318186c;
+}
+
+.quick-scan-header{
+    display: inline-block;
+    text-align: left;
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.quick-scan-form-button:hover {
+    background-color: #f31818;
+    box-shadow: 0 0 15px #f31818;
+    border-color: #f31818;
+}
+
+
+
+.quick-scan-form label {
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 15px; /* Add space between checkbox and label */
+    vertical-align: middle; /* Align with the checkbox */
+}
+
+/* Match the dropdowns with other input fields */
+.quick-scan-form select {
+    width: 100%;
+    height: 3rem;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    box-sizing: border-box;
+}
+
+.quick-scan-form select:focus {
+    outline: none;
+    background-color: #e7e7e7;
+    border-color: #f31818;
+    box-shadow: 1px 1px 5px 2px #f318186c;
+}
+
+
+/* General styles for labels to match your login form */
+.form-label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0px;
+    color: white;
+}
+
+
+
+
+
+
+.form-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+/* Style for each column */
+.form-column {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 49%; /* Adjust the width as necessary, just make sure both columns together don't exceed 100% */
+}
+
+.quick-scan-form-button{
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding: 10px; /* Adjust padding for better appearance */
+    font-weight: bold;
+    background-color: #d51f1f;
+    border: solid 2px black;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.4s ease 0s; 
+}
+
+.success{
+    color: #54d683;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 1rem;
+
+}

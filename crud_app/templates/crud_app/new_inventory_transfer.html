@@ -1,0 +1,27 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newinventorytransfer.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-transfer-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-transfer-header">Ship Inventory:</h2><br>
+        
+            
+        <label class="form-label">Part:</label>
+        {{ form.benchstock_part_in_dc }} <br>
+        <label class="form-label">Quantity:</label>
+        {{ form.quantity }} <br>
+        <label class="form-label">Destination DC:</label>
+        {{ form.to_dc }} <br>
+   
+        <button class="new-transfer-form-button">Save Transfer</button>
+    </form>
+</div>
+
+{%else%}
+{%endif%}
+{% endblock %}

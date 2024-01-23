@@ -1,0 +1,35 @@
+{% extends 'crud_app/base.html' %}
+
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/quickscan.css' %}"> <!-- Update the CSS file path -->
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="quick-scan-form">
+    <form method="post" action="{% url 'crud_app:process_quick_scan' %}"> <!-- Update the URL to the correct view -->
+        {% csrf_token %}
+        <h2 class="quick-scan-header">Quick Scan:</h2><br>
+
+        <label class="form-label" for="dc">Select DC:</label>
+        <select id="dc" name="dc">
+            <option value="">--- Select DC ---</option>
+            {% for dc in dcs %} <!-- Ensure 'dcs' context variable is passed from the view -->
+                <option value="{{ dc.id }}">{{ dc.dc_name }}</option> <!-- Adjust field names based on your DC model -->
+            {% endfor %}
+        </select><br>
+
+        <label class="form-label" for="sku">Scan SKU Barcode:</label>
+        <input type="text" id="sku" name="sku" required><br> <!-- Text input for SKU scanning -->
+
+        <button class="quick-scan-form-button" type="submit">Process Scan</button>
+    </form>
+</div>
+
+{% else %}
+<p>You need to be logged in to access this page.</p>
+{% endif %}
+{% endblock %}

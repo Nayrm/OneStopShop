@@ -1,0 +1,24 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newfurnituretype.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-furniture-type-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-furniture-type-header">Add Furniture Category:</h2><br> 
+        <label class="form-label">Furniture Category:</label>
+        {{ form.furniture_categories}} <br>
+        <button class="new-furniture-type-form-button">Save Category</button>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2rem;">
+    <a href="{% url 'crud_app:settings' %}" style="font-weight: bold; color: #87CEEB;;">Return to Settings</a>
+    </div>
+{%else%}
+<h1>Not logged in</h1>
+<a href="{% url 'crud_app:login' %}">Login</a>
+{%endif%}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/dcparts.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="dc-part-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="dc-part-header">Add Part to DC</h2>
+        <label class="form-label">SKU:</label>
+            {{ form.benchstock_part }} <br><br>
+        <div class="form-row">
+            
+        <div class="form-column">
+            <label class="form-label">DC:</label>
+            {{ form.dc }} <br><br>
+            
+            <label class="form-label">Quantity:</label>
+            {{ form.quantity }} <br><br>
+            <label class="form-label">Optimal quantity:</label>
+            {{ form.optimal_quantity }} <br><br>
+        </div> 
+
+        <div class = "form-column">
+            
+            <label class="form-label">Rack #:</label>
+            {{ form.rack_number }} <br><br>
+            <label class="form-label">Shelf #:</label>
+            {{ form.shelf_number }} <br><br>
+            <label class="form-label">Shelf Side:</label>
+            {{ form.shelf_side }} <br><br>
+
+        </div>
+        </div>
+
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        
+        <button class="dc-part-form-button">Save Part in DC</button>
+    </form>
+
+</div>
+
+
+
+
+{%else%}
+{%endif%}
+{% endblock %}

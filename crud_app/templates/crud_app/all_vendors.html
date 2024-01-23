@@ -1,0 +1,46 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/allvendors.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="all-vendors-container">
+    <div class="all-vendors-table-wrapper">
+        <table class="all-vendors-table">
+            <thead>
+                <tr>
+                    <th>Vendor</th>
+                    <th>Vendor ID</th>
+                    <th>Vendor Code</th>
+                    <th>Sends Parts</th>
+                    <th>Available Parts</th>
+                    <th>Unavailable Parts</th>
+                    <th>Part Shipping</th>
+                    <th>Other Part Info</th>
+                    <th>Edit</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for vendor in vendors %}
+                <tr>
+                    <td>{{vendor.vendor_name}}</td>
+                    <td>{{vendor.vendor_id}}</td>
+                    <td>{{vendor.vendor_code}}</td>
+                    <td>{{vendor.sends_parts}}</td>
+                    <td>{{vendor.available_parts}}</td>
+                    <td>{{vendor.unavailable_parts}}</td>
+                    <td>{{vendor.part_shipping}}</td>
+                    <td>{{vendor.other_part_info}}</td>
+                    <td><a href="{% url 'crud_app:edit_vendors' vendor.id %}">Edit</a></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%else%}
+{%endif%}
+{% endblock %}

@@ -1,0 +1,180 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/onestopshop.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="oss-container">
+    <h1 class="oss-title">One-Stop-Shop</h1>
+    <form method="get" action="">
+        <label for="dc_filter">Filter by DC:</label> 
+        <select name="dc_filter">
+            <option value="">--- Select DC ---</option>
+            {% for dc in dc_choices %}
+                <option value="{{ dc }}" {% if request.GET.dc_filter == dc %}selected{% endif %}>{{ dc }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="vendor_filter">Filter by Vendor:</label> 
+        <select name="vendor_filter">
+            <option value="">--- Select Vendor ---</option>
+            {% for vendor in vendor_choices %}
+                <option value="{{ vendor }}" {% if request.GET.vendor_filter == vendor %}selected{% endif %}>{{ vendor }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="sku_filter">Search by SKU:</label> 
+        <input class="sku-input" type="text" name="sku_filter" value="{{ request.GET.sku_filter }}">
+
+        <input class="submit-btn" type="submit" value="Search">
+
+        <a href="{% url 'crud_app:one_stop_shop' %}" class="reset-btn"><i class="bi bi-arrow-clockwise"></i></a>
+        {% if request.GET.sku_filter %}
+        <div id="link-container">
+            <a href="https://product-imaging.intra.cityfurniture.io/products/skuinformation/{{ request.GET.sku_filter }}" target="_blank">View CFE Imaging for {{ request.GET.sku_filter }}</a>
+        </div>
+        <div id="link-container">
+            <a href="https://www.cityfurniture.com/catalogsearch/result?q={{ request.GET.sku_filter }}" target="_blank">View CityFurniture.com result {{ request.GET.sku_filter }}</a>
+        </div>
+        <div id="link-container">
+            <a href="https://www.cityfurniture.com/catalogsearch/result?q={{ request.GET.sku_filter|slice:':4' }}" target="_blank">View CityFurniture.com related results {{ request.GET.sku_filter|slice:':4' }}</a>
+        </div>
+    {% endif %}
+    </form>
+    <div class="all-slats-table-wrapper">
+        
+        <table class="all-slats-table">
+            <thead>
+                <tr>
+                    <th colspan="10" style="background-color: black; font-size: 1.7rem;">Slat Information:</th>
+                </tr>
+                <tr>
+                    <th>Vendor</th>
+                    <th>SKU</th>
+                    <th>Slat Quantity</th>
+                    <th>Slat Length</th>
+                    <th>Center Slat Quantity</th>
+                    <th>Center Slat Length</th>
+                    <th>Support Quantity</th>
+                    <th>Support Height</th>
+                    <th>Mid Support Quantity</th>
+                    <th>Mid Support Height</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slats in slat_info %}
+                <tr>
+                    <td>{{slats.vendor}}</td>
+                    <td>{{slats.sku}}</td>
+                    <td>{{slats.slat_amount}}</td>
+                    <td>{{slats.slat_length}}</td>
+                    <td>{{slats.center_slat_amount}}</td>
+                    <td>{{slats.center_slat_length}}</td>
+                    <td>{{slats.support_amount}}</td>
+                    <td>{{slats.support_height}}</td>
+                    <td>{{slats.mid_support_amount}}</td>
+                    <td>{{slats.mid_support_height}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="all-vendors-table-wrapper">
+        <table class="all-vendors-table">
+            <thead>
+                <tr>
+                    <th colspan="9" style="background-color: black; font-size: 1.7rem;">Vendor Information:</th>
+                </tr>
+
+                <tr>
+                    <th>Vendor</th>
+                    <th>Vendor ID</th>
+                    <th>Vendor Code</th>
+                    <th>Sends Parts</th>
+                    <th>Available Parts</th>
+                    <th>Unavailable Parts</th>
+                    <th>Part Shipping</th>
+                    <th>Other Part Info</th>
+                    <th>Edit</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for vendor in vendors %}
+                <tr>
+                    <td>{{vendor.vendor_name}}</td>
+                    <td>{{vendor.vendor_id}}</td>
+                    <td>{{vendor.vendor_code}}</td>
+                    <td>{{vendor.sends_parts}}</td>
+                    <td>{{vendor.available_parts}}</td>
+                    <td>{{vendor.unavailable_parts}}</td>
+                    <td>{{vendor.part_shipping}}</td>
+                    <td>{{vendor.other_part_info}}</td>
+                    <td><a href="{% url 'crud_app:edit_vendors' vendor.id %}">Edit</a></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="all-dc-skus-table-wrapper">
+        
+        <table class="all-dc-skus-table">
+            <thead>
+                <tr>
+                    <th colspan="12" style="background-color: black; font-size: 1.7rem;">Benchstock Inventory:</th>
+                </tr>
+                <tr>
+                    <th>DC</th>
+                    <th>Vendor</th>
+                    <th>SKU</th>
+                    <th>Furniture Type</th>
+                    <th>Part Type</th>
+                    <th>Part Description</th>
+                    <th>Part Color</th>
+                    <th>Part Image</th>
+                    <th>Quantity</th>
+                    <th>Optimal Quantity</th>
+                    <th>Location</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sku in benchstock_parts_in_dc %}
+                <tr>
+                    <td>{{sku.dc}}</td>
+                    <td>{{sku.benchstock_part.vendor.vendor_id}}</td>
+                    <td>{{sku.benchstock_part.benchstock_sku}}</td>
+                    <td>
+                        {% for furniture in sku.benchstock_part.furniture_type.all %}
+                        {{ furniture }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                </td>
+                    <td>{{sku.benchstock_part.part_type}}</td>
+                    <td>{{sku.benchstock_part.part_description}}</td>
+                    <td>{{sku.benchstock_part.part_color}}</td>
+                    <td>
+                        {% if sku.benchstock_part.part_image %}
+                            <a href="{{ sku.benchstock_part.part_image.url }}" target="_blank">{{ sku.benchstock_part.part_image }}</a>
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{sku.quantity}}</td>
+                    <td>{{sku.optimal_quantity}}</td>
+                    <td>{{sku.rack_number}}-{{sku.shelf_number}}-{{sku.shelf_side}}</td>
+                    <td><a href="{% url 'crud_app:edit_dc_parts' sku.id %}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    
+</div>
+
+
+{%else%}
+{%endif%}
+{% endblock %}

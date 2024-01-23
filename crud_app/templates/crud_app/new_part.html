@@ -1,0 +1,49 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newpart.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-part-form">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 id="new-part-header">Add New Part:</h2><br>
+        <div class="form-row">
+            <div class="form-column">
+        <label class="form-label">Vendor:</label>
+        {{ form.vendor }} <br>
+    
+        <label class="form-label">Furniture Type:</label>
+        <div class="scrollable-checkboxes">
+            {% for checkbox in form.furniture_type %}
+            <div class="checkbox-inline">
+                {{ checkbox.tag }}  <!-- This is the actual checkbox input -->
+                <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+            </div>
+        {% endfor %}
+        </div><br>
+    
+        <label class="form-label" for="id_part_type">Part Type:</label>
+        {{ form.part_type }} <br><br>
+            </div>
+            <div class="form-column">
+        <label class="form-label" for="id_part_color">Part Color:</label>
+        {{ form.part_color }} <br>
+        <label class="form-label" for="id_part_description">Part Description:</label>
+        {{ form.part_description }} <br><br><br>
+        <label class="form-label" for="id_part_image">Part Image:</label>
+        {{ form.part_image }} <br><br>
+            </div>
+        </div>
+        {% if success_message %}
+        <p class="success">{{ success_message }}</p>
+        {% endif %}
+
+    
+        <button class="new-part-form-button">Save Part</button>
+    </form>
+</div>
+{%else%}
+{%endif%}
+{% endblock %}

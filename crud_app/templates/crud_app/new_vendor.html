@@ -1,0 +1,43 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newvendor.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-vendor-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-vendor-header">Add New Vendor:</h2><br>
+        <div class="form-row">
+            <div class="form-column">
+        <label class="form-label">Vendor Name:</label>
+        {{ form.vendor_name }} <br>
+        <label class="form-label">Vendor Code:</label>
+        {{ form.vendor_code }} <br>
+        <label class="form-label">Available Parts:</label>
+        {{ form.available_parts }} <br>
+        <label class="form-label">Part Shipping:</label>
+        {{ form.part_shipping }} <br>
+        </div>
+        <div class="form-column">
+        <label class="form-label">Vendor ID:</label>
+        {{ form.vendor_id }} <br>
+        <label class="form-label">Sends Parts:</label>
+        {{ form.sends_parts }} <br>
+        <label class="form-label">Unavailable Parts:</label>
+        {{ form.unavailable_parts }} <br>
+       
+        <label class="form-label">Other Part Info:</label>
+        {{ form.other_part_info }} <br>
+    
+        
+            </div>
+        </div>
+        <button class="new-vendor-form-button">Save Vendor</button>
+    </form>
+</div>
+
+{%else%}
+{%endif%}
+{% endblock %}

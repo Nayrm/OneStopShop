@@ -1,0 +1,81 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/allskus.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="all-skus-container">
+    <div class="all-skus-table-wrapper">
+        <table class="last-sku-table">
+            <div class="last-sku-table-wrapper">
+                <table class="last-sku-table">
+                    <thead>
+                        <tr>
+                            <th colspan="7" style="text-align: center;">Last Added:</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if last_benchstock_part %}
+                        <tr>
+                            <td>{{ last_benchstock_part.vendor }}</td>
+                            <td>{{ last_benchstock_part.benchstock_sku }}</td>
+                            <td>
+                                {% for furniture in last_benchstock_part.furniture_type.all %}
+                                    {{ furniture }}
+                                {% endfor %}
+                            </td>
+                            <td>{{ last_benchstock_part.part_type }}</td>
+                            <td>{{ last_benchstock_part.part_description }}</td>
+                            <td>{{ last_benchstock_part.part_color }}</td>
+                            <td>{{ last_benchstock_part.part_image }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </table>
+        <table class="all-skus-table">
+            <thead>
+                <tr>
+                    <th>Vendor</th>
+                    <th>Benchstock SKU</th>
+                    <th>Furniture Type</th>
+                    <th>Part Type</th>
+                    <th>Part Description</th>
+                    <th>Part Color</th>
+                    <th>Part Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sku in benchstock_parts %}
+                <tr>
+                    <td>{{sku.vendor}}</td>
+                    <td>{{sku.benchstock_sku}}</td>
+                    <td>
+                        {% for furniture in sku.furniture_type.all %}
+                        {{ furniture }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                </td>
+                    <td>{{sku.part_type}}</td>
+                    <td>{{sku.part_description}}</td>
+                    <td>{{sku.part_color}}</td>
+                    <td>
+                        {% if sku.part_image %}
+                            <a href="{{ sku.part_image.url }}" target="_blank">{{ sku.part_image }}</a>
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{%else%}
+{%endif%}
+{% endblock %}

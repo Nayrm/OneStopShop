@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'crud_app/css/base.css' %}">
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "{% url 'crud_app:logout' %}";
+            }
+        }
+    </script>
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand text-white" href="{% url 'crud_app:index' %}"><b>OneStopShop</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+            aria-expanded="false" aria-label="Toggle navigation" style="background-color: #000000;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">Welcome, <i><b>{{ user.first_name }}</b></i></a>
+            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'crud_app:one_stop_shop' %}">One-Stop-Shop</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Benchstock
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link text-white" href="{% url 'crud_app:new_part' %}">New Part</a> 
+                    <a class="nav-link text-white" href="{% url 'crud_app:dc_parts' %}">Add DC Part</a>
+                    <a class="nav-link text-white" href="{% url 'crud_app:all_skus' %}">All SKUs</a>
+                    <a class="nav-link text-white" href="{% url 'crud_app:all_dc_skus' %}">All DC SKUs</a>
+                    <a class="nav-link text-white" href="{% url 'crud_app:process_quick_scan' %}">Quick Scan</a>
+                    <a class="nav-link text-white" href="{% url 'crud_app:new_inventory_transfer' %}">Inventory Transfer</a>
+                    <a class="nav-link text-white" href="{% url 'crud_app:receive_inventory_transfer' %}">Receive Transfer</a>
+                </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Vendors
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link text-white" href="{% url 'crud_app:new_vendor' %}">New Vendor</a>
+                
+                
+                    <a class="nav-link text-white" href="{% url 'crud_app:all_vendors' %}">All/Edit Vendors</a>
+                </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Slat Info
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link text-white" href="{% url 'crud_app:new_slat' %}">New Slat Info</a>
+                
+                
+                    <a class="nav-link text-white" href="{% url 'crud_app:all_slat_info' %}">All Slat Info</a>
+                </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'crud_app:settings' %}">Settings</a>
+                </li>
+                <li class="nav-item dropdown">
+                    
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#" onclick="confirmLogout()">Log out</a>
+                </li>
+                
+                
+               
+
+            {% else %}
+                <li class="nav-item" id="nav-login">
+                    <a class="nav-link text-white" href="{% url 'crud_app:index' %}">Login Required</a>
+                </li>
+            {% endif %}
+
+
+            </ul>
+        </div>
+    </nav>
+    {% block content %}
+    <!-- This block will be filled with content from child templates -->
+    {% endblock %}
+</html>

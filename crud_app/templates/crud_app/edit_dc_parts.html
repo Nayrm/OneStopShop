@@ -1,0 +1,43 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/editdcparts.css' %}">
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="edit-dc-part-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="edit-dc-part-header">Edit Part in DC: {{ form.instance.dc }}</h2>
+        <!-- Display non-editable fields as text -->
+        <p id="edit-dc-selected-part">Part: {{ form.instance.benchstock_part }}</p>
+        
+        <!-- Editable fields -->
+        <label class="form-label">Quantity:</label>
+        {{ form.quantity }} <br><br>
+        
+        <label class="form-label">Optimal Quantity:</label>
+        {{ form.optimal_quantity }} <br><br>
+        
+        <label class="form-label">Rack #:</label>
+        {{ form.rack_number }} <br><br>
+        
+        <label class="form-label">Shelf #:</label>
+        {{ form.shelf_number }} <br><br>
+        
+        <label class="form-label">Shelf Side:</label>
+        {{ form.shelf_side }} <br><br>
+        
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        
+        <button class="edit-dc-part-form-button">Update Part in DC</button>
+    </form>
+</div>
+{% else %}
+<!-- Content to display if the user is not authenticated -->
+{% endif %}
+{% endblock %}

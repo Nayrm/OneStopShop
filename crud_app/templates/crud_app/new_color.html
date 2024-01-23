@@ -1,0 +1,24 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newcolor.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-color-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-color-header">Add New Color:</h2><br> 
+        <label class="form-label">Color:</label>
+        {{ form.color_options }} <br>
+        <button class="new-color-form-button">Save Color</button>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2rem;">
+    <a href="{% url 'crud_app:settings' %}" style="font-weight: bold; color: #87CEEB;;">Return to Settings</a>
+    </div>
+{%else%}
+<h1>Not logged in</h1>
+<a href="{% url 'crud_app:login' %}">Login</a>
+{%endif%}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'crud_app/base.html' %}
+
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/receiveinventorytransfer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{%if user.is_authenticated%}
+<div class="receive-transfer-form">
+<form method="post" action="{% url 'crud_app:process_transfer' %}">
+    {% csrf_token %}
+    <h2 id="receive-transfer-header">Receive Inventory:</h2><br>
+    <label class="form-label" for="transfer_number">Scan Transfer Barcode:</label>
+    <input type="number" id="transfer_number" name="transfer_number" required>
+    <button class="receive-transfer-form-button" type="submit">Save</button>
+</form>
+</div>
+
+{%else%}
+{%endif%}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newparttype.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-part-type-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-part-type-header">Add New Part Type:</h2><br> 
+        <label class="form-label">Part Type:</label>
+        {{ form.part_categories}} <br>
+        <button class="new-part-type-form-button">Save Type</button>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2rem;">
+    <a href="{% url 'crud_app:settings' %}" style="font-weight: bold; color: #87CEEB;;">Return to Settings</a>
+    </div>
+
+{%else%}
+<h1>Not logged in</h1>
+<a href="{% url 'crud_app:login' %}">Login</a>
+{%endif%}
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/newslat.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="new-slat-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h2 id="new-slat-header">Add Slat Information:</h2><br>
+        <div class="form-row">
+            <div class="form-column">
+        <label class="form-label">Vendor:</label>
+        {{ form.vendor }} <br>
+       
+        <label class="form-label">Slat Quantity:</label>
+        {{ form.slat_amount }} <br>
+        <label class="form-label">Center Slat Quantity:</label>
+        {{ form.center_slat_amount }} <br>
+        <label class="form-label">Support Quantity:</label>
+        {{ form.support_amount }} <br>
+        <label class="form-label">Center Support Quantity:</label>
+        {{ form.mid_support_amount }} <br>
+        </div>
+        <div class="form-column">
+        <label class="form-label">SKU:</label>
+        {{ form.sku }} <br>
+        <label class="form-label">Slat Length:</label>
+        {{ form.slat_length }} <br>
+        <label class="form-label">Center Slat Length:</label>
+        {{ form.center_slat_length }} <br>
+        
+        <label class="form-label">Support Height:</label>
+        {{ form.support_height }} <br>
+        
+        <label class="form-label">Center Support Height:</label>
+        {{ form.mid_support_height }} <br>
+        
+        </div>
+        </div>
+        
+        
+        
+        <button class="new-slat-form-button">Save Slat Info</button>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2rem;">
+    <a href="{% url 'crud_app:settings' %}" style="font-weight: bold; color: #87CEEB;;">Return to Settings</a>
+    </div>
+{%else%}
+<h1>Not logged in</h1>
+<a href="{% url 'crud_app:login' %}">Login</a>
+{%endif%}
+{% endblock %}

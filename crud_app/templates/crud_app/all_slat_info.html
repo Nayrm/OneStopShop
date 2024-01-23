@@ -1,0 +1,47 @@
+{% extends 'crud_app/base.html' %}
+{% load static %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'crud_app/css/allslatinfo.css' %}">
+{% endblock %}
+{% block content %}
+{%if user.is_authenticated%}
+<div class="all-slats-container">
+    <div class="all-slats-table-wrapper">
+        <table class="all-slats-table">
+            <thead>
+                <tr>
+                    <th>Vendor</th>
+                    <th>SKU</th>
+                    <th>Slat Quantity</th>
+                    <th>Slat Length</th>
+                    <th>Center Slat Quantity</th>
+                    <th>Center Slat Length</th>
+                    <th>Support Quantity</th>
+                    <th>Support Height</th>
+                    <th>Mid Support Quantity</th>
+                    <th>Mid Support Height</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slats in slat_info %}
+                <tr>
+                    <td>{{slats.vendor}}</td>
+                    <td>{{slats.sku}}</td>
+                    <td>{{slats.slat_amount}}</td>
+                    <td>{{slats.slat_length}}</td>
+                    <td>{{slats.center_slat_amount}}</td>
+                    <td>{{slats.center_slat_length}}</td>
+                    <td>{{slats.support_amount}}</td>
+                    <td>{{slats.support_height}}</td>
+                    <td>{{slats.mid_support_amount}}</td>
+                    <td>{{slats.mid_support_height}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%else%}
+{%endif%}
+{% endblock %}
+
